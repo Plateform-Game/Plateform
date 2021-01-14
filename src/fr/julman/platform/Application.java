@@ -42,7 +42,7 @@ public class Application extends JFrame implements EventRegister {
 
 		this.setSize(750, 500);
 		
-		this.setIconImage(this.getToolkit().getImage("ressources/icon.png"));
+		this.setIconImage(this.getToolkit().getImage("icon.png"));
 		this.setTitle("Platform");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
