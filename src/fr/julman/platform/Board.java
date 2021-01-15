@@ -162,7 +162,7 @@ public class Board extends JPanel {
 
 		try {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/pottaone.ttf")));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("fonts/pottaone.ttf")));
 
 			if (Launcher.CONFIGURATION_FILE.exists()) {
 				FileReader reader = new FileReader(Launcher.CONFIGURATION_FILE);
