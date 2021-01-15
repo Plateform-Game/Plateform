@@ -2,11 +2,14 @@ package fr.julman.platform;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -73,7 +76,8 @@ public class Board extends JPanel {
 						writer.close();
 					} catch (IOException e1) {
 						Audio.playSound("chords.wav", 0);
-						JOptionPane.showMessageDialog(Board.this, "USA : Sorry, but changes will not saved.\n\nFRA : Désolé, mais les changements ne serront pas enregistrés.");
+						JOptionPane.showMessageDialog(Board.this,
+								"USA : Sorry, but changes will not saved.\n\nFRA : Désolé, mais les changements ne serront pas enregistrés.");
 					}
 
 					Launcher.LANG = Language.USA;
@@ -92,13 +96,14 @@ public class Board extends JPanel {
 						writer.close();
 					} catch (IOException e1) {
 						Audio.playSound("chords.wav", 0);
-						JOptionPane.showMessageDialog(Board.this, "USA : Sorry, but changes will not saved.\n\nFRA : Désolé, mais les changements ne serront pas enregistrés.");
+						JOptionPane.showMessageDialog(Board.this,
+								"USA : Sorry, but changes will not saved.\n\nFRA : Désolé, mais les changements ne serront pas enregistrés.");
 					}
 
 					Launcher.LANG = Language.FRA;
 					repaint();
 				}
-				
+
 				if (new Rectangle(10, 150, 150, 20).contains(e.getPoint())) {
 					repaint();
 				}
@@ -156,6 +161,9 @@ public class Board extends JPanel {
 		this.setForeground(getForeground());
 
 		try {
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resources/fonts/pottaone.ttf")));
+
 			if (Launcher.CONFIGURATION_FILE.exists()) {
 				FileReader reader = new FileReader(Launcher.CONFIGURATION_FILE);
 				final JSONObject config = (JSONObject) new JSONParser().parse(reader);
@@ -180,9 +188,12 @@ public class Board extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Audio.playSound("chords.wav", 0);
-			JOptionPane.showInternalMessageDialog(this, "USA : Sorry, but if you change game settings, changes will not saved.\n\nFRA : Désolé, mais si vous changer les paramètres du jeu, les changements ne serront pas enregistrés.");
+			JOptionPane.showInternalMessageDialog(this,
+					"USA : Sorry, but if you change game settings, changes will not saved.\n\nFRA : Désolé, mais si vous changer les paramètres du jeu, les changements ne serront pas enregistrés.");
+		} catch (FontFormatException e) {
+			e.printStackTrace();
 		}
-		
+
 		Audio.playSound("main_title.wav", -0x001);
 	}
 
@@ -197,12 +208,12 @@ public class Board extends JPanel {
 			g.setColor(Color.CYAN);
 			g.fillRect(play.x, play.y, 100, 20);
 			if (Locales.getLangEntry(LangEntry.SETTINGS_BUTTON) == Locales.FRA_SETTINGS_BUTTON) {
-				g.fillRect(settings.x, settings.y, 120, 20);
+				g.fillRect(settings.x, settings.y, 140, 20);
 			}
 			g.fillRect(settings.x, settings.y, 100, 20);
 			g.fillRect(quit.x, quit.y, 100, 20);
 
-			g.setFont(new Font("Lucida Console", 20, 20));
+			g.setFont(new Font("Potta One", 18, 18));
 			g.setColor(Color.DARK_GRAY);
 			g.drawString(Locales.getLangEntry(LangEntry.PLAY_BUTTON), play.x + 2, play.y + 17);
 			g.drawString(Locales.getLangEntry(LangEntry.SETTINGS_BUTTON), settings.x + 2, settings.y + 17);
@@ -216,7 +227,7 @@ public class Board extends JPanel {
 			g.fillRect(0, 0, 2000, 2000);
 
 			g.setColor(Color.WHITE);
-			g.setFont(new Font("Lucida Consola", 30, 30));
+			g.setFont(new Font("Potta One", 18, 18));
 			g.fillRect(0, 380, 20, 20);
 
 			this.removeMouseListener(button_listener);
@@ -238,21 +249,21 @@ public class Board extends JPanel {
 				g.fillRect(lang_fra.x, lang_fra.y, 140, 20);
 			}
 
-			g.setFont(new Font("Lucida Console", 20, 20));
+			g.setFont(new Font("Potta One", 18, 18));
 			g.setColor(Color.DARK_GRAY);
 			g.drawString(Locales.getLangEntry(LangEntry.BACK_TEXT), play.x + 2, play.y + 17);
-			
+
 			g.setColor(Color.WHITE);
 			g.drawString("Version : " + Launcher.VERSION, 20, 450);
 			g.drawString(Locales.getLangEntry(LangEntry.LANGUAGE_TEXT) + " :", 10, 60);
 			g.drawString(Locales.getLangEntry(LangEntry.MUSIC_ACTIVATION_TEXT) + " :", 10, 140);
-			
+
 			g.setColor(Color.CYAN);
-			g.fillRect(10 , 150, 140, 20);
+			g.fillRect(10, 150, 140, 20);
 			g.setColor(Color.DARK_GRAY);
-			g.drawString("-", 14 , 167);
+			g.drawString("-", 14, 167);
 			g.setColor(Color.WHITE);
-			
+
 			g.setColor(Color.DARK_GRAY);
 			if (Launcher.LANG == Language.USA) {
 				g.drawString("• English", lang_usa.x + 2, lang_usa.y + 17);
